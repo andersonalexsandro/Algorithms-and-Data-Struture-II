@@ -1,39 +1,41 @@
 package io.github.andersonalexsandro.FirstModule;
 
 import java.lang.reflect.Array;
+import java.util.EmptyStackException;
 
 public class ResizingStack<T> {
-    private Class<T> type;
-    private T[] stack;
+    private Object[] stack;
     private int size;
 
-    @SuppressWarnings("unchecked")
-    public ResizingStack(int length, Class<T> type) {
-        this.type = type;
-        this.stack = (T[]) Array.newInstance(type, length);
+    public ResizingStack(int length) {
+        this.stack = new Object[length];
         this.size = 0;
     }
 
     public boolean isEmpty(){
-        return size==0;
+        return size ==0;
+    }
+
+    public int size(){
+        return size;
     }
 
     public void push(T item){
-        stack[size] = item;
-        size++;
-        if(size == stack.length) resize(stack.length * 2);
+        stack[size++] = item;
     }
 
     public T pop(){
-        if(isEmpty()) throw new IndexOutOfBoundsException();
-        T item = stack[size];
-        stack[size] = null;
-        if(size>0 && size == stack.length/2) resize(stack.length/2);
-        return item;
+        if(isEmpty()) throw new EmptyStackException();
+        return (T) stack[--size];
+    }
+
+    public T peek(){
+        if(isEmpty()) throw new EmptyStackException();
+        return (T) stack[size-1];
     }
 
     public void resize(int lengh){
-        T[] newStack = (T[]) Array.newInstance(type, lengh);
+        Object[] newStack = new Object[lengh];
         for(int i = 0; i<newStack.length; i++) newStack[i] = stack[i];
         this.stack = newStack;
     }
