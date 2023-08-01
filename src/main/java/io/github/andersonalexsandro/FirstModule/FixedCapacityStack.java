@@ -1,31 +1,35 @@
 package io.github.andersonalexsandro.FirstModule;
 
-import java.lang.reflect.Array;
+import java.util.EmptyStackException;
 
 public class FixedCapacityStack<T> {
-    private Class<T> type;
-    private T[] stack;
+    private Object[] stack;
     private int size;
 
-    @SuppressWarnings("unchecked")
-    public FixedCapacityStack(int length, Class<T> type) {
-        this.type = type;
-        this.stack = (T[]) Array.newInstance(type, length);
+    public FixedCapacityStack(int length) {
+        this.stack = new Object[length];
         this.size = 0;
     }
 
     public boolean isEmpty(){
-        return size==0;
+        return size ==0;
+    }
+
+    public int size(){
+        return size;
     }
 
     public void push(T item){
-        stack[size] = item;
-        size++;
+        stack[size++] = item;
     }
 
     public T pop(){
-        T item = stack[size];
-        stack[size] = null;
-        return item;
+        if(isEmpty()) throw new EmptyStackException();
+        return (T) stack[--size];
+    }
+
+    public T peek(){
+        if(isEmpty()) throw new EmptyStackException();
+        return (T) stack[size-1];
     }
 }
