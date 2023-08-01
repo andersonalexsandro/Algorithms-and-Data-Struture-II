@@ -3,6 +3,8 @@ package io.github.andersonalexsandro.FirstModule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.EmptyStackException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class FixedCapacityStackTest {
@@ -21,6 +23,7 @@ class FixedCapacityStackTest {
         assertEquals(0, stack.size());
         for(int i=0; i<numberOfTest; i++) stack.push(i+"");
         assertEquals(numberOfTest, stack.size());
+        assertThrows(ArrayIndexOutOfBoundsException.class, () -> stack.push("anoter Item"));
     }
 
     @Test
@@ -44,6 +47,7 @@ class FixedCapacityStackTest {
 
     @Test
     void pop() {
+        assertThrows(EmptyStackException.class, () -> stack.pop());
         fillStack();
         for(int i =0; i<numberOfTest; i++) stack.pop();
         assertTrue(stack.isEmpty());
@@ -51,6 +55,7 @@ class FixedCapacityStackTest {
 
     @Test
     void peek(){
+        assertThrows(EmptyStackException.class, ()-> stack.peek());
         fillStack();
         for(int i=numberOfTest-1; i>=0; i--){
             assertEquals(i+"", stack.peek());

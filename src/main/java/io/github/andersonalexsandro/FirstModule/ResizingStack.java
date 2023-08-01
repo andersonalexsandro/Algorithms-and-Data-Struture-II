@@ -21,12 +21,15 @@ public class ResizingStack<T> {
     }
 
     public void push(T item){
+        if(size==stack.length) resize(stack.length * 2);
         stack[size++] = item;
     }
 
-    public T pop(){
-        if(isEmpty()) throw new EmptyStackException();
-        return (T) stack[--size];
+    public T pop() {
+        if (isEmpty()) throw new EmptyStackException();
+        T item = (T) stack[--size];
+        if (size > 0 && size <= (stack.length) / 4) resize(stack.length / 2);
+        return item;
     }
 
     public T peek(){
@@ -34,9 +37,13 @@ public class ResizingStack<T> {
         return (T) stack[size-1];
     }
 
-    public void resize(int lengh){
-        Object[] newStack = new Object[lengh];
-        for(int i = 0; i<newStack.length; i++) newStack[i] = stack[i];
+    public void resize(int newlengh){
+        Object[] newStack = new Object[newlengh];
+        for(int i = 0; i<size; i++) newStack[i] = stack[i];
         this.stack = newStack;
+    }
+
+    protected Object[] getStack(){
+        return stack;
     }
 }

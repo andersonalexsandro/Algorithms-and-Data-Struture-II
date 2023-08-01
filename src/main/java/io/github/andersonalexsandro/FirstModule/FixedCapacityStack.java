@@ -20,6 +20,7 @@ public class FixedCapacityStack<T> {
     }
 
     public void push(T item){
+        if(size==stack.length) throw new ArrayIndexOutOfBoundsException();
         stack[size++] = item;
     }
 
