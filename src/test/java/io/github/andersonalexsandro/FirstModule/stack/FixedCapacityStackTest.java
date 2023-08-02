@@ -1,5 +1,6 @@
-package io.github.andersonalexsandro.FirstModule;
+package io.github.andersonalexsandro.FirstModule.stack;
 
+import io.github.andersonalexsandro.FirstModule.stack.FixedCapacityStack;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

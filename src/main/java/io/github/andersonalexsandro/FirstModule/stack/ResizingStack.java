@@ -1,4 +1,4 @@
-package io.github.andersonalexsandro.FirstModule;
+package io.github.andersonalexsandro.FirstModule.stack;
 
 import java.lang.reflect.Array;
 import java.util.EmptyStackException;
