@@ -40,21 +40,16 @@ public class LinkedList<Type> {
         Node atual = this.first;
         Node old = null;
         for(int i=0; i<this.size; i++){
-            if(atual.getValue().equals(item) && atual.equals(first)){
-                first = atual.getNext();
-                atual = null;
-                size--;
-                break;
-            }
             if(atual.getValue().equals(item)){
-                old.setNext(atual.getNext());
-                atual = null;
-                size--;
+                if(atual.equals(this.first)){
+                    this.first = atual.getNext();
+                    atual.setNext(null);
+                }else if(atual.equals(this.last)){
+                    this.last = old;
+                    old.setNext(null);
+                }
+                this.size--;
                 break;
-            }
-            if(atual.getNext() != null){
-                old = atual;
-                atual = atual.getNext();
             }
         }
     }
