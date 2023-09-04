@@ -37,20 +37,17 @@ public class LinkedList<Type> {
     }
 
     public void remove(Type item){
-        Node atual = this.first;
-        Node old = null;
+        Node current = this.first;
+        Node past = null;
         for(int i=0; i<this.size; i++){
-            if(atual.getValue().equals(item)){
-                if(atual.equals(this.first)){
-                    this.first = atual.getNext();
-                    atual.setNext(null);
-                }else if(atual.equals(this.last)){
-                    this.last = old;
-                    old.setNext(null);
-                }
+            if(current.getValue().equals(item)){
+                if(current.equals(this.first)) this.first = current.getNext();
+                else if(current.equals(this.last)) this.last = past;
                 this.size--;
                 break;
             }
+            past = current;
+            current = current.getNext();
         }
     }
 
@@ -101,5 +98,7 @@ public class LinkedList<Type> {
         public void setNext(Node next) {
             this.next = next;
         }
+
+
     }
 }

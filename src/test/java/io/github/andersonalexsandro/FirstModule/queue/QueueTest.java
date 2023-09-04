@@ -29,6 +29,7 @@ class QueueTest {
         assertTrue(queue.isEmpty());
         fullQueue();
         assertEquals(lengthTest, queue.size());
+        assertTrue(queue.isFull());
     }
 
     @Test
