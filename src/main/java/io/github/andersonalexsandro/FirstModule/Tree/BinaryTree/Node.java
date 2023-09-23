@@ -1,24 +1,24 @@
 package io.github.andersonalexsandro.FirstModule.Tree.BinaryTree;
 
 public class Node<Type extends Comparable<Type>> implements Comparable<Node<Type>> {
-    private Type value;
+    private Type key;
     private Node<Type> rightChild;
     private Node<Type> leftChild;
     private Node<Type> father;
 
 
-    public Node(Type value) {
-        this.value = value;
+    public Node(Type key) {
+        this.key = key;
         this.rightChild = null;
         this.leftChild = null;
     }
 
-    public Type getValue() {
-        return value;
+    public Type getKey() {
+        return key;
     }
 
-    public void setValue(Type value) {
-        this.value = value;
+    public void setKey(Type key) {
+        this.key = key;
     }
 
     public Node<Type> getFather() {
@@ -48,15 +48,15 @@ public class Node<Type extends Comparable<Type>> implements Comparable<Node<Type
     @Override
     public String toString() {
         return "Node{" +
-                "value=" + value +
+                "value=" + key +
                 ", rightChild=" + rightChild +
                 ", leftChild=" + leftChild +
-                ", father=" + father +
+//                ", father=" + father +
                 '}';
     }
 
     @Override
     public int compareTo(Node<Type> anotherNode) {
-        return this.value.compareTo(anotherNode.value);
+        return this.key.compareTo(anotherNode.key);
     }
 }
