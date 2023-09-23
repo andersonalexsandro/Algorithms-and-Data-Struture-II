@@ -1,5 +1,8 @@
 package io.github.andersonalexsandro.FirstModule.Tree.BinaryTree;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BinaryTree<Type extends Comparable<Type>> {
 
     private Node<Type> root;
@@ -23,6 +26,23 @@ public class BinaryTree<Type extends Comparable<Type>> {
             else stalker.setLeftChild(newElement);
     }
 
+    public List<Type> inOrder(Node<Type> current) {
+        List<Type> inOrderList = new ArrayList<>();
+        inOrderTraversal(current, inOrderList);
+        return inOrderList;
+    }
+
+    private void inOrderTraversal(Node<Type> node, List<Type> inOrderList) {
+        if (node != null) {
+            inOrderTraversal(node.getLeftChild(), inOrderList);
+            inOrderList.add(node.getKey());
+            inOrderTraversal(node.getRightChild(), inOrderList);
+        }
+    }
+
+    public Node<Type> getRoot() {
+        return root;
+    }
 
     //Implemented by CHAT-GPT(3.5)
     @Override
