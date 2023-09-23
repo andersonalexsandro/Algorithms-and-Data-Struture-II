@@ -6,7 +6,7 @@ import java.util.List;
 public class testMain {
     public static void main(String[] args) {
         BinaryTree<Integer> tree = new BinaryTree<>();
-        String inputString = "35, 67, 45, 90, 75, 24, 86, 7 9, 52, 15";
+        String inputString = "35, 67, 45, 90, 75, 24, 86, 79, 52, 15";
 
         inputString = inputString.trim();
         inputString = inputString.replace("," , " ");
