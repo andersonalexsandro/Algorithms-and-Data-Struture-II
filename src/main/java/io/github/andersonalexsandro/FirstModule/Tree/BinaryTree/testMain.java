@@ -29,8 +29,15 @@ public class testMain {
         System.out.println("getting "+ numberToSeach + " key");
         System.out.println(tree.getNodeByKey(numberToSeach));
         System.out.println();
-        System.out.println("Deleting 75");
-//        tree.removeNodeByKey(75);
-//        System.out.println(tree.toString());
+        System.out.println("Max value:"+ tree.getMax(tree.getRoot()));
+        System.out.println("Min value:"+tree.getMin(tree.getRoot()));
+        System.out.println();
+        System.out.println();
+        System.out.println("Father of:"+numberToSeach + " is:" + tree.getFather(numberToSeach));
+        System.out.println();
+        System.out.println("Predecessor of:"+numberToSeach + " is:" + tree.getPredecessor(numberToSeach));
+        System.out.println();
+        System.out.println("Successor of:"+numberToSeach + " is:" + tree.getSuccessor(numberToSeach));
+
     }
 }

@@ -1,5 +1,7 @@
 package io.github.andersonalexsandro.FirstModule.Tree.BinaryTree;
 
+import java.util.Objects;
+
 public class Node<KeyType extends Comparable<KeyType>> implements Comparable<Node<KeyType>> {
     private KeyType key;
     private Node<KeyType> rightChild;
@@ -48,5 +50,17 @@ public class Node<KeyType extends Comparable<KeyType>> implements Comparable<Nod
     @Override
     public int compareTo(Node<KeyType> anotherNode) {
         return this.key.compareTo(anotherNode.key);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Node<?> node)) return false;
+        return Objects.equals(getKey(), node.getKey());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getKey());
     }
 }

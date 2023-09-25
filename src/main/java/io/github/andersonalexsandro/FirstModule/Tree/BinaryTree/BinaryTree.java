@@ -44,6 +44,113 @@ public class BinaryTree<Key extends Comparable<Key>> {
 //        else throw new IndexOutOfBoundsException("There isn't node with key"+key);
 //    }
 
+//    public Node<Key> getPredecessor(Node<Key> begging){
+//
+//    }
+
+    public Node<Key> Getpredecessor(Key key){
+        Node<Key> node = new Node<>(key);
+        Node<Key> current = root;
+        while (!current.equals(node)){
+            if(node.compareTo(current) > 0) current = current.getRightChild();
+            else current = current.getLeftChild();
+        }
+        if(current.getLeftChild() != null) return getMax(current.getLeftChild());
+        else{
+            Node<Key> father = getFather(key);
+            while (father != null && current.equals(father.getLeftChild())){
+                current = father;
+                father = getFather(father.getKey());
+            }
+            return father;
+        }
+    }
+
+    public Key getPredecessor(Key numberToSeach) {
+        Node<Key> node = new Node<>(numberToSeach);
+        Node<Key> current = root;
+        while (!current.equals(node)){
+            if(node.compareTo(current) > 0) current = current.getRightChild();
+            else current = current.getLeftChild();
+        }
+        if(current.getLeftChild() != null) return getMax(current.getLeftChild()).getKey();
+        else{
+            Node<Key> father = getFather(numberToSeach);
+            while (father != null && current.equals(father.getLeftChild())){
+                current = father;
+                father = getFather(father.getKey());
+            }
+            return father.getKey();
+        }
+    }
+
+    public Key getSuccessor(Key numberToSeach) {
+        Node<Key> node = new Node<>(numberToSeach);
+        Node<Key> current = root;
+        while (!current.equals(node)){
+            if(node.compareTo(current) > 0) current = current.getRightChild();
+            else current = current.getLeftChild();
+        }
+        if(current.getRightChild() != null) return getMin(current.getRightChild()).getKey();
+        else{
+            Node<Key> father = getFather(numberToSeach);
+            while (father != null && current.equals(father.getRightChild())){
+                current = father;
+                father = getFather(father.getKey());
+            }
+            return father.getKey();
+        }
+    }
+
+    public Node<Key> getSucessor(Key key){
+        Node<Key> node = new Node<>(key);
+        Node<Key> current = root;
+        while (!current.equals(node)){
+            if(node.compareTo(current) > 0) current = current.getRightChild();
+            else current = current.getLeftChild();
+        }
+        if(current.getRightChild() != null) return getMin(current.getRightChild());
+        else{
+            Node<Key> father = getFather(key);
+            while (father != null && current.equals(father.getRightChild())){
+                current = father;
+                father = getFather(father.getKey());
+            }
+            return father;
+        }
+    }
+
+    public Node<Key> getFather(Key key){
+        Node<Key> node = new Node<>(key);
+        if(node.equals(root)) return null;
+        else{
+            Node<Key> current = root;
+            Node<Key> father = null;
+            while (!current.equals(node)){
+                father = current;
+                if(node.compareTo(current) > 0) current = current.getRightChild();
+                else current = current.getLeftChild();
+            }
+            return father;
+        }
+    }
+
+    public Node<Key> getMin(Node<Key> beggining){
+        Node<Key> current = beggining;
+        while (current.getLeftChild() !=null ){
+            current = current.getLeftChild();
+        }
+        return current;
+    }
+
+    public Node<Key> getMax(Node<Key> beggining){
+        Node<Key> current = beggining;
+        while (current.getRightChild() != null){
+            current = current.getRightChild();
+        }
+        return current;
+    }
+
     public Node<Key> getNodeByKey(Key key){
         Node<Key> current = root;
         while (true){
@@ -129,8 +236,8 @@ public class BinaryTree<Key extends Comparable<Key>> {
     public Node<Key> getRoot() {
         return root;
     }
-
     //Implemented by CHAT-GPT(3.5)
+
     @Override
     public String toString() {
         if (root == null) {
