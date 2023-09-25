@@ -1,47 +1,38 @@
 package io.github.andersonalexsandro.FirstModule.Tree.BinaryTree;
 
-public class Node<Type extends Comparable<Type>> implements Comparable<Node<Type>> {
-    private Type key;
-    private Node<Type> rightChild;
-    private Node<Type> leftChild;
-    private Node<Type> father;
+public class Node<KeyType extends Comparable<KeyType>> implements Comparable<Node<KeyType>> {
+    private KeyType key;
+    private Node<KeyType> rightChild;
+    private Node<KeyType> leftChild;
 
 
-    public Node(Type key) {
+    public Node(KeyType key) {
         this.key = key;
         this.rightChild = null;
         this.leftChild = null;
     }
 
-    public Type getKey() {
+    public KeyType getKey() {
         return key;
     }
 
-    public void setKey(Type key) {
+    public void setKey(KeyType key) {
         this.key = key;
     }
 
-    public Node<Type> getFather() {
-        return father;
-    }
-
-    public void setFather(Node<Type> father) {
-        this.father = father;
-    }
-
-    public Node<Type> getRightChild() {
+    public Node<KeyType> getRightChild() {
         return rightChild;
     }
 
-    public void setRightChild(Node<Type> rightChild) {
+    public void setRightChild(Node<KeyType> rightChild) {
         this.rightChild = rightChild;
     }
 
-    public Node<Type> getLeftChild() {
+    public Node<KeyType> getLeftChild() {
         return leftChild;
     }
 
-    public void setLeftChild(Node<Type> leftChild) {
+    public void setLeftChild(Node<KeyType> leftChild) {
         this.leftChild = leftChild;
     }
 
@@ -51,12 +42,11 @@ public class Node<Type extends Comparable<Type>> implements Comparable<Node<Type
                 "value=" + key +
                 ", rightChild=" + rightChild +
                 ", leftChild=" + leftChild +
-//                ", father=" + father +
                 '}';
     }
 
     @Override
-    public int compareTo(Node<Type> anotherNode) {
+    public int compareTo(Node<KeyType> anotherNode) {
         return this.key.compareTo(anotherNode.key);
     }
 }
