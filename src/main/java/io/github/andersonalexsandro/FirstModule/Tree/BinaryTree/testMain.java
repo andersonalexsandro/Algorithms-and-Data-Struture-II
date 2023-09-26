@@ -27,7 +27,7 @@ public class testMain {
         System.out.println(tree.reverOrder(tree.getRoot()));
         Integer numberToSeach = Integer.valueOf(input.get(new Random().nextInt(input.size())));
         System.out.println("getting "+ numberToSeach + " key");
-        System.out.println(tree.getNodeByKey(numberToSeach));
+        System.out.println(tree.getNode(numberToSeach));
         System.out.println();
         System.out.println("Max value:"+ tree.getMax(tree.getRoot()));
         System.out.println("Min value:"+tree.getMin(tree.getRoot()));
@@ -38,6 +38,10 @@ public class testMain {
         System.out.println("Predecessor of:"+numberToSeach + " is:" + tree.getPredecessor(numberToSeach));
         System.out.println();
         System.out.println("Successor of:"+numberToSeach + " is:" + tree.getSuccessor(numberToSeach));
+        int numberToRemove = 67;
+        System.out.println("removing "+numberToRemove);
+        tree.removeNodeByKey(numberToRemove);
+        System.out.println(tree.toString());
 
     }
 }

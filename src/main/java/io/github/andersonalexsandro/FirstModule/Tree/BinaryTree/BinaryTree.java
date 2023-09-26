@@ -10,54 +10,35 @@ public class BinaryTree<Key extends Comparable<Key>> {
     public BinaryTree() {
     }
 
-//    public void removeNodeByKey(Key key){
-//        Node<Key> father = null;
-//        Node<Key> current = root;
-//        while (current != null){
-//            if(current.getKey().equals(key)) break;
-//            father = current;
-//            if(key.compareTo(current.getKey())>0) current = current.getRightChild();
-//            else current = current.getLeftChild();
-//        }
-//        if(current != null){
-//            if(current.getRightChild() != null && current.getLeftChild() != null){//has two children
-//
-//            }else if(current.getLeftChild() != null){//has only left child
-//
-//            }else if(current.getRightChild() != null){//has only right child
-//                Node<Key> substituteFather = current;
-//                Node<Key> substitute = current.getRightChild();
-//                while (substitute != null){
-//                    substituteFather = substitute;
-//                    substitute = substitute.getLeftChild();
-//                }
-//
-//                if(father.getRightChild() != null && father.getRightChild().equals(current)) father.setRightChild(substituteFather);
-//                else father.setLeftChild(substituteFather);
-//                substituteFather = null;
-//
-//            }else{//has no children
-//                if(current.compareTo(father) > 0) father.setRightChild(null);
-//                else father.setLeftChild(null);
-//            }
-//        }
-//        else throw new IndexOutOfBoundsException("There isn't node with key"+key);
-//    }
-
-//    public Node<Key> getPredecessor(Node<Key> begging){
-//
-//    }
-
-    public Node<Key> Getpredecessor(Key key){
-        Node<Key> node = new Node<>(key);
-        Node<Key> current = root;
-        while (!current.equals(node)){
-            if(node.compareTo(current) > 0) current = current.getRightChild();
-            else current = current.getLeftChild();
+    public void removeNodeByKey(Key key){
+        Node<Key> node = getNode(key);
+        if(node != null){
+            Node<Key> father = getFather(key);
+            if(node.getLeftChild() == null && node.getRightChild() == null){
+                if(father == null) root = null;
+                else if(node.equals(father.getLeftChild())) father.setLeftChild(null);
+                else father.setRightChild(null);
+            }else if(node.getLeftChild() != null && node.getRightChild() == null){
+                if(father == null) root = node.getLeftChild();
+                else if(node.equals(father.getLeftChild())) father.setLeftChild(node.getLeftChild());
+                else father.setRightChild(node.getLeftChild());
+            }else if(node.getLeftChild() == null && node.getRightChild() != null){
+                if(father == null) root = node.getRightChild();
+                else if(node.equals(father.getLeftChild())) father.setLeftChild(node.getRightChild());
+                else father.setRightChild(node.getRightChild());
+            }else{
+                Node<Key> successor = getSuccessor(key);
+                removeNodeByKey(successor.getKey());
+                node.setKey(successor.getKey());
+            }
         }
+    }
+
+    public Node<Key> getPredecessor(Key numberToSeach) {
+        Node<Key> current = getNode(numberToSeach);
         if(current.getLeftChild() != null) return getMax(current.getLeftChild());
         else{
-            Node<Key> father = getFather(key);
+            Node<Key> father = getFather(numberToSeach);
             while (father != null && current.equals(father.getLeftChild())){
                 current = father;
                 father = getFather(father.getKey());
@@ -66,49 +47,8 @@ public class BinaryTree<Key extends Comparable<Key>> {
         }
     }
 
-    public Key getPredecessor(Key numberToSeach) {
-        Node<Key> node = new Node<>(numberToSeach);
-        Node<Key> current = root;
-        while (!current.equals(node)){
-            if(node.compareTo(current) > 0) current = current.getRightChild();
-            else current = current.getLeftChild();
-        }
-        if(current.getLeftChild() != null) return getMax(current.getLeftChild()).getKey();
-        else{
-            Node<Key> father = getFather(numberToSeach);
-            while (father != null && current.equals(father.getLeftChild())){
-                current = father;
-                father = getFather(father.getKey());
-            }
-            return father.getKey();
-        }
-    }
-
-    public Key getSuccessor(Key numberToSeach) {
-        Node<Key> node = new Node<>(numberToSeach);
-        Node<Key> current = root;
-        while (!current.equals(node)){
-            if(node.compareTo(current) > 0) current = current.getRightChild();
-            else current = current.getLeftChild();
-        }
-        if(current.getRightChild() != null) return getMin(current.getRightChild()).getKey();
-        else{
-            Node<Key> father = getFather(numberToSeach);
-            while (father != null && current.equals(father.getRightChild())){
-                current = father;
-                father = getFather(father.getKey());
-            }
-            return father.getKey();
-        }
-    }
-
-    public Node<Key> getSucessor(Key key){
-        Node<Key> node = new Node<>(key);
-        Node<Key> current = root;
-        while (!current.equals(node)){
-            if(node.compareTo(current) > 0) current = current.getRightChild();
-            else current = current.getLeftChild();
-        }
+    public Node<Key> getSuccessor(Key key){
+        Node<Key> current = getNode(key);
         if(current.getRightChild() != null) return getMin(current.getRightChild());
         else{
             Node<Key> father = getFather(key);
@@ -151,7 +91,7 @@ public class BinaryTree<Key extends Comparable<Key>> {
         return current;
     }
 
-    public Node<Key> getNodeByKey(Key key){
+    public Node<Key> getNode(Key key){
         Node<Key> current = root;
         while (true){
             if(current.getKey().equals(key)) return current;
