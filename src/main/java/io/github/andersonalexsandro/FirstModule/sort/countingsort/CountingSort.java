@@ -1,5 +1,7 @@
 package io.github.andersonalexsandro.FirstModule.sort.countingsort;
 
+import java.util.Arrays;
+
 public class CountingSort {
 
     Integer[] numbersToSort;
@@ -22,9 +24,7 @@ public class CountingSort {
         }
         System.out.println("Third step ");
         printArray(countingArray);
-        for(int i= numbersToSort.length -1; i >= 0; i--) {
-            sortedNumbers[--countingArray[numbersToSort[i]]] = numbersToSort[i];
-        }
+        for(int i= numbersToSort.length -1; i >= 0; i--) sortedNumbers[--countingArray[numbersToSort[i]]] = numbersToSort[i];
         System.out.println("Final step: ");
         printArray(countingArray);
         System.out.println("Sorted array: ");
@@ -52,5 +52,4 @@ public class CountingSort {
         }
         System.out.println(" ]");
     }
-
 }
