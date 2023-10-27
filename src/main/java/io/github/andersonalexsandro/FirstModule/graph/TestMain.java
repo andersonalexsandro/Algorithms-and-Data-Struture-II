@@ -1,18 +1,18 @@
 package io.github.andersonalexsandro.FirstModule.graph;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class TestMain {
 
-    private static int numberOfVertex = 10;
-    private static LinkedList<Vertex>[] adjacencyArray = new LinkedList[numberOfVertex];
-    private static Graph graph = new Graph(adjacencyArray);
+    private static int NumberOfVertices = 10;
+    private static LinkedList<Vertex>[] adjacencyList = new LinkedList[NumberOfVertices];
+    private static Graph graph = new Graph(adjacencyList);
+    private static HashMap<Integer, Vertex> allVertices = new HashMap<>();
 
     public static void main(String[] args) {
 
-        for(int i= 0; i< numberOfVertex; i++) adjacencyArray[i] = new LinkedList<>();
+        fillHasMap();
+        instantiateLinkedLists();
 
         addToAdjacencyList(0, Arrays.asList(1, 4, 5));
         addToAdjacencyList(1, Arrays.asList(0, 2, 6));
@@ -31,7 +31,17 @@ public class TestMain {
     private static void addToAdjacencyList(int index, List<Integer> neighbors){
         for(int i=0; i< neighbors.size(); i++){
             int neighborNumber = neighbors.get(i);
-            adjacencyArray[index].add(new Vertex(neighborNumber));
+            Vertex vertex = allVertices.get(neighborNumber);
+            adjacencyList[index].add(vertex);
         }
     }
+
+    private static void instantiateLinkedLists(){
+        for(int i = 0; i< NumberOfVertices; i++) adjacencyList[i] = new LinkedList<>();
+    }
+
+    private static void fillHasMap(){
+        for(int i = 0; i< NumberOfVertices; i++) allVertices.put(i, new Vertex(i));
+    }
+
 }

@@ -35,6 +35,7 @@ public class Queue<T> {
     public T dequeue(){
         if(!isEmpty()){
             T item = (T) queue[head];
+            queue[head] = null;
             head = (head+1) % queue.length;
             size--;
             return item;

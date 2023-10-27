@@ -46,8 +46,9 @@ public class Graph {
 
     public void printVertices(){
         for(int i=0; i<adjacencyArray.length; i++){
+            System.out.println(i + " is Neighbor of: ");
             for(int j =0; j<adjacencyArray[i].size(); j++){
-                System.out.println(adjacencyArray[i].get(j));
+                System.out.println(adjacencyArray[i].get(j) + " distance of the source: "+ adjacencyArray[i].get(j).getDistance() + " predecessor " + adjacencyArray[i].get(j).getPredecessor());
             }
         }
     }
