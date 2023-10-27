@@ -1,13 +1,13 @@
 package io.github.andersonalexsandro.FirstModule.queue;
 
-public class ResizingArrayQueue<T> {
+public class ResizingQueue<T> {
 
     private int size;
     private int head;
     private int tail;
     private Object[] queue;
 
-    public ResizingArrayQueue(int capacity){
+    public ResizingQueue(int capacity){
         queue = new Object[capacity];
         this.size = 0;
         this.head = 0;

@@ -6,16 +6,16 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class ResizingArrayQueueTest {
+class ResizingQueueTest {
 
-    private ResizingArrayQueue<Integer> queue;
+    private ResizingQueue<Integer> queue;
 
     int lengthTest;
 
     @BeforeEach
     void setUp() {
         lengthTest = 3;
-        queue = new ResizingArrayQueue<>(lengthTest);
+        queue = new ResizingQueue<>(lengthTest);
     }
 
     @Test
