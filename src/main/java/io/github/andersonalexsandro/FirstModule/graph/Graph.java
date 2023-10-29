@@ -2,18 +2,28 @@ package io.github.andersonalexsandro.FirstModule.graph;
 
 import io.github.andersonalexsandro.FirstModule.queue.Queue;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 
 public class Graph {
 
     private int numberOfVertex;
-    private int numberOfEdges;
 
     private LinkedList<Vertex>[] adjacencyArray;
+    private HashMap<Integer, Vertex> allVerticies = new HashMap<>();
 
     public Graph(LinkedList<Vertex>[] adjacencyList) {
         this.adjacencyArray = adjacencyList;
         numberOfVertex = adjacencyList.length;
+    }
+
+    public void fillHasMap(){
+        for(int i=0; i<adjacencyArray.length; i++){
+            for(int j=0; j< adjacencyArray[i].size(); j++){
+                Vertex vertex = adjacencyArray[i].get(j);
+                if(!allVerticies.containsKey(adjacencyArray[i].get(j).getNumber())) allVerticies.put(adjacencyArray[i].get(j).getNumber(), adjacencyArray[i].get(j));
+            }
+        }
     }
 
     public void breadthFirstSearch(Vertex source){
@@ -43,6 +53,54 @@ public class Graph {
             vertex.setColor(Color.BLACK);
         }
     }
+
+    public void DepthFirstSearch(){
+        for(int i=0; i< allVerticies.size(); i++){
+            Vertex vertex = allVerticies.get(i);
+            vertex.setColor(Color.WHITE);
+            vertex.setPredecessor(null);
+            vertex.setDistance(0);
+            vertex.setSecondVisitDistance(0);
+        }
+        int time = 0;
+        for(int i=0; i<allVerticies.size(); i++){
+            Vertex vertex = allVerticies.get(i);
+            if(vertex.getColor().equals(Color.WHITE)){
+                visitSearch(vertex, time);
+            }
+        }
+    }
+
+    private void visitSearch(Vertex vertex, int time) {
+        time++;
+        vertex.setDistance(time);
+        vertex.setColor(Color.GRAY);
+        for(int i =0; i< adjacencyArray[vertex.getNumber()].size(); i++){
+            Vertex neighbor = adjacencyArray[vertex.getNumber()].get(i);
+            if(neighbor.getColor().equals(Color.WHITE)){
+                neighbor.setPredecessor(vertex);
+                visitSearch(neighbor, time);
+            }
+        }
+        vertex.setColor(Color.BLACK);
+        time++;
+        vertex.setSecondVisitDistance(time);
+    }
+
+    public void printTravel(Vertex source, Vertex destin){
+        if(source.equals(destin)){
+            System.out.println(source);
+        } else{
+            if(destin.getPredecessor() == null){
+                System.out.println("There is no way to source vertex");
+            }else{
+                printTravel(source, destin.getPredecessor());
+                System.out.println(destin);
+            }
+        }
+    }
+
+
 
     public void printVertices(){
         for(int i=0; i<adjacencyArray.length; i++){

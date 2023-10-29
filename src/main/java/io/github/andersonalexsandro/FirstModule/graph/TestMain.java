@@ -24,8 +24,15 @@ public class TestMain {
         addToAdjacencyList(7, Arrays.asList(2, 5, 9));
         addToAdjacencyList(8, Arrays.asList(3, 5, 6));
         addToAdjacencyList(9, Arrays.asList(4, 6, 7));
+        graph.fillHasMap();
         graph.breadthFirstSearch(new Vertex(0));
         graph.printVertices();
+        System.out.println();
+        graph.printTravel(allVertices.get(0), allVertices.get(8));
+        System.out.println();
+        System.out.println();
+        graph.DepthFirstSearch();
+        graph.printTravel(allVertices.get(0), allVertices.get(8));
     }
 
     private static void addToAdjacencyList(int index, List<Integer> neighbors){

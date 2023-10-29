@@ -7,6 +7,7 @@ public class Vertex {
     private Integer number;
     private Vertex predecessor;
     private int distance;
+    private int secondVisitDistance;
 
     public Vertex(Integer number) {
         this.number = number;
@@ -42,6 +43,14 @@ public class Vertex {
 
     public void setDistance(int distance) {
         this.distance = distance;
+    }
+
+    public int getSecondVisitDistance() {
+        return secondVisitDistance;
+    }
+
+    public void setSecondVisitDistance(int secondVisitDistance) {
+        this.secondVisitDistance = secondVisitDistance;
     }
 
     @Override
