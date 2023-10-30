@@ -29,13 +29,12 @@ public class TestMain {
         }
 
         List<Vertex> resultDepth = graph.depthFirstSearch();
-        System.out.println();
         System.out.println("Result from Depth-First Search");
         result.forEach(System.out::println);
         System.out.println();
         for(int i=0; i<result.size(); i++){
             System.out.println( sourceNumber +" to " + i);
-            List<Vertex> inOrderTraversalResult = graph.sourceToDestinInOrder(sourceNumber, i, result);
+            List<Vertex> inOrderTraversalResult = graph.sourceToDestinInOrder(sourceNumber, i, resultDepth);
             inOrderTraversalResult.forEach(System.out::println);
         }
     }
