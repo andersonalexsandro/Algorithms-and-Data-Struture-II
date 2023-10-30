@@ -2,113 +2,108 @@ package io.github.andersonalexsandro.FirstModule.graph;
 
 import io.github.andersonalexsandro.FirstModule.queue.Queue;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 public class Graph {
 
-    private int numberOfVertex;
+    private int numberOfVertices;
+    private LinkedList<Integer>[] adjacencyArray;
 
-    private LinkedList<Vertex>[] adjacencyArray;
-    private HashMap<Integer, Vertex> allVerticies = new HashMap<>();
-
-    public Graph(LinkedList<Vertex>[] adjacencyList) {
-        this.adjacencyArray = adjacencyList;
-        numberOfVertex = adjacencyList.length;
+    public Graph(int numberOfVertices) {
+        this.numberOfVertices = numberOfVertices;
+        adjacencyArray = new LinkedList[numberOfVertices];
+        instantiateAdjacencyArray();
     }
 
-    public void fillHasMap(){
-        for(int i=0; i<adjacencyArray.length; i++){
-            for(int j=0; j< adjacencyArray[i].size(); j++){
-                Vertex vertex = adjacencyArray[i].get(j);
-                if(!allVerticies.containsKey(adjacencyArray[i].get(j).getNumber())) allVerticies.put(adjacencyArray[i].get(j).getNumber(), adjacencyArray[i].get(j));
-            }
-        }
-    }
 
-    public void breadthFirstSearch(Vertex source){
-        for(int i=0; i<adjacencyArray.length; i++){
-            for(int j=0; j< adjacencyArray[i].size(); j++){
-                Vertex vertex = adjacencyArray[i].get(j);
-                vertex.setColor(Color.WHITE);
-                vertex.setDistance(0);
-                vertex.setPredecessor(null);
-            }
-        }
-        source.setColor(Color.GRAY);
-        Queue<Vertex> queue = new Queue<>(10);
-        queue.enqueue(source);
+    public List<Vertex> breadthFirstSearch(Integer source){
+        List<Vertex> vertices = new ArrayList<>();
+        for(int i=0; i<numberOfVertices; i++) vertices.add(i, new Vertex(i));
+        Vertex sourceVertx = vertices.get(source);
+        sourceVertx.setColor(Color.GRAY);
+        sourceVertx.setDistanceFromSource(0);
+        Queue<Vertex> queue = new Queue<>(numberOfVertices);
+        queue.enqueue(sourceVertx);
         while (!queue.isEmpty()){
-            Vertex vertex = queue.dequeue();
-            LinkedList<Vertex> currentVertexAdjacencyList = adjacencyArray[vertex.getNumber()];
-            for(int i = 0; i < currentVertexAdjacencyList.size(); i++){
-                Vertex neighbor = currentVertexAdjacencyList.get(i);
-                if(neighbor.getColor() == Color.WHITE){
+            Vertex current = queue.dequeue();
+            LinkedList<Integer> neighborhood = adjacencyArray[current.getNumber()];
+            neighborhood.forEach(neighborhoodNumber -> {
+                Vertex neighbor = vertices.get(neighborhoodNumber);
+                if(neighbor.getColor().equals(Color.WHITE)){
                     neighbor.setColor(Color.GRAY);
-                    neighbor.setDistance(vertex.getDistance() + 1);
-                    neighbor.setPredecessor(vertex);
+                    neighbor.setPredecessor(current);
+                    neighbor.setDistanceFromSource(current.getDistanceFromSource() + 1);
                     queue.enqueue(neighbor);
                 }
-            }
-            vertex.setColor(Color.BLACK);
+            });
+            current.setColor(Color.BLACK);
         }
+        return vertices;
     }
 
-    public void DepthFirstSearch(){
-        for(int i=0; i< allVerticies.size(); i++){
-            Vertex vertex = allVerticies.get(i);
-            vertex.setColor(Color.WHITE);
-            vertex.setPredecessor(null);
-            vertex.setDistance(0);
-            vertex.setSecondVisitDistance(0);
-        }
+    public List<Vertex> depthFirstSearch(){
+        List<Vertex> vertices = new ArrayList<>(numberOfVertices);
+        for(int i=0; i<numberOfVertices; i++) vertices.add(new Vertex(i));
         int time = 0;
-        for(int i=0; i<allVerticies.size(); i++){
-            Vertex vertex = allVerticies.get(i);
-            if(vertex.getColor().equals(Color.WHITE)){
-                visitSearch(vertex, time);
-            }
-        }
+        vertices.forEach(vertex -> {
+            if(vertex.getColor().equals(Color.WHITE)) searchVisit(vertices, vertex, time);
+        });
+        return vertices;
     }
 
-    private void visitSearch(Vertex vertex, int time) {
-        time++;
-        vertex.setDistance(time);
-        vertex.setColor(Color.GRAY);
-        for(int i =0; i< adjacencyArray[vertex.getNumber()].size(); i++){
-            Vertex neighbor = adjacencyArray[vertex.getNumber()].get(i);
+    private void searchVisit(List<Vertex> vertices, Vertex current, int time){
+        int distance = ++time;
+        current.setDistanceFromSource(time);
+        current.setColor(Color.GRAY);
+        LinkedList<Integer> neighborhoodNumbers = adjacencyArray[current.getNumber()];
+        neighborhoodNumbers.forEach(neighborhoodNumber ->{
+            Vertex neighbor = vertices.get(neighborhoodNumber);
             if(neighbor.getColor().equals(Color.WHITE)){
-                neighbor.setPredecessor(vertex);
-                visitSearch(neighbor, time);
+                neighbor.setPredecessor(current);
+                searchVisit(vertices, neighbor, distance);
             }
-        }
-        vertex.setColor(Color.BLACK);
-        time++;
-        vertex.setSecondVisitDistance(time);
-    }
-
-    public void printTravel(Vertex source, Vertex destin){
-        if(source.equals(destin)){
-            System.out.println(source);
-        } else{
-            if(destin.getPredecessor() == null){
-                System.out.println("There is no way to source vertex");
-            }else{
-                printTravel(source, destin.getPredecessor());
-                System.out.println(destin);
-            }
-        }
+        });
+        current.setColor(Color.BLACK);
+        ++time;
+        current.setSecondVisit(time);
     }
 
 
+    public List<Vertex> sourceToDestinInOrder(int sourceNumber, int destinNumber, List<Vertex> vertices){
+        ArrayList<Vertex> result = new ArrayList<>();
+        Vertex source = vertices.get(sourceNumber);
+        Vertex destin = vertices.get(destinNumber);
+        inOrderTraversal(result, source, destin);
+        return result;
+    }
 
-    public void printVertices(){
-        for(int i=0; i<adjacencyArray.length; i++){
-            System.out.println(i + " is Neighbor of: ");
-            for(int j =0; j<adjacencyArray[i].size(); j++){
-                System.out.println(adjacencyArray[i].get(j) + " distance of the source: "+ adjacencyArray[i].get(j).getDistance() + " predecessor " + adjacencyArray[i].get(j).getPredecessor());
+    private void inOrderTraversal(List<Vertex> result, Vertex source, Vertex destin){
+        if(source.equals(destin)) result.add(destin);
+        else {
+            if(destin.getPredecessor() == null) throw new IllegalArgumentException("There is no way to source");
+            else{
+                inOrderTraversal(result, source, destin.getPredecessor());
+                result.add(destin);
             }
         }
+    }
+
+    private void instantiateAdjacencyArray(){
+        for(int i = 0; i< numberOfVertices; i++) adjacencyArray[i] = new LinkedList<>();
+    }
+
+    public void addNeighbors(int vertexNumber, List<Integer> neighborsNumbers){
+        neighborsNumbers.forEach(numberOfVertices -> adjacencyArray[vertexNumber].add(numberOfVertices));
+    }
+
+    public LinkedList<Integer>[] getAdjacencyArray() {
+        return adjacencyArray;
+    }
+
+    public void setAdjacencyArray(LinkedList<Integer>[] adjacencyArray) {
+        this.adjacencyArray = adjacencyArray;
     }
 
 }

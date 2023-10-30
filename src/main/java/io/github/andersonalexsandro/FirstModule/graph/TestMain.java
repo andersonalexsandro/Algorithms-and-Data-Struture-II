@@ -1,54 +1,42 @@
 package io.github.andersonalexsandro.FirstModule.graph;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 
 public class TestMain {
-
-    private static int NumberOfVertices = 10;
-    private static LinkedList<Vertex>[] adjacencyList = new LinkedList[NumberOfVertices];
-    private static Graph graph = new Graph(adjacencyList);
-    private static HashMap<Integer, Vertex> allVertices = new HashMap<>();
-
     public static void main(String[] args) {
+        Graph graph = new Graph(10);
+        int sourceNumber = 0;
+        graph.addNeighbors(0, Arrays.asList(1, 4, 5));
+        graph.addNeighbors(1, Arrays.asList(0, 2, 6));
+        graph.addNeighbors(2, Arrays.asList(1, 3, 7));
+        graph.addNeighbors(3, Arrays.asList(2, 4, 8));
+        graph.addNeighbors(4, Arrays.asList(0, 3, 9));
+        graph.addNeighbors(5, Arrays.asList(0, 7, 8));
+        graph.addNeighbors(6, Arrays.asList(1, 8, 9));
+        graph.addNeighbors(7, Arrays.asList(2, 5, 9));
+        graph.addNeighbors(8, Arrays.asList(3, 5, 6));
+        graph.addNeighbors(9, Arrays.asList(4, 6, 7));
 
-        fillHasMap();
-        instantiateLinkedLists();
+        List<Vertex> result = graph.breadthFirstSearch(sourceNumber);
+        System.out.println("Result from Breadth-First Search");
+        result.forEach(System.out::println);
+        System.out.println();
+        for(int i=1; i<result.size(); i++){
+            System.out.println( sourceNumber +" to " + i);
+            List<Vertex> inOrderTraversalResult = graph.sourceToDestinInOrder(sourceNumber, i, result);
+            inOrderTraversalResult.forEach(System.out::println);
+        }
 
-        addToAdjacencyList(0, Arrays.asList(1, 4, 5));
-        addToAdjacencyList(1, Arrays.asList(0, 2, 6));
-        addToAdjacencyList(2, Arrays.asList(1, 3, 7));
-        addToAdjacencyList(3, Arrays.asList(2, 4, 8));
-        addToAdjacencyList(4, Arrays.asList(0, 3, 9));
-        addToAdjacencyList(5, Arrays.asList(0, 7, 8));
-        addToAdjacencyList(6, Arrays.asList(1, 8, 9));
-        addToAdjacencyList(7, Arrays.asList(2, 5, 9));
-        addToAdjacencyList(8, Arrays.asList(3, 5, 6));
-        addToAdjacencyList(9, Arrays.asList(4, 6, 7));
-        graph.fillHasMap();
-        graph.breadthFirstSearch(new Vertex(0));
-        graph.printVertices();
+        List<Vertex> resultDepth = graph.depthFirstSearch();
         System.out.println();
-        graph.printTravel(allVertices.get(0), allVertices.get(8));
+        System.out.println("Result from Depth-First Search");
+        result.forEach(System.out::println);
         System.out.println();
-        System.out.println();
-        graph.DepthFirstSearch();
-        graph.printTravel(allVertices.get(0), allVertices.get(8));
-    }
-
-    private static void addToAdjacencyList(int index, List<Integer> neighbors){
-        for(int i=0; i< neighbors.size(); i++){
-            int neighborNumber = neighbors.get(i);
-            Vertex vertex = allVertices.get(neighborNumber);
-            adjacencyList[index].add(vertex);
+        for(int i=0; i<result.size(); i++){
+            System.out.println( sourceNumber +" to " + i);
+            List<Vertex> inOrderTraversalResult = graph.sourceToDestinInOrder(sourceNumber, i, result);
+            inOrderTraversalResult.forEach(System.out::println);
         }
     }
-
-    private static void instantiateLinkedLists(){
-        for(int i = 0; i< NumberOfVertices; i++) adjacencyList[i] = new LinkedList<>();
-    }
-
-    private static void fillHasMap(){
-        for(int i = 0; i< NumberOfVertices; i++) allVertices.put(i, new Vertex(i));
-    }
-
 }

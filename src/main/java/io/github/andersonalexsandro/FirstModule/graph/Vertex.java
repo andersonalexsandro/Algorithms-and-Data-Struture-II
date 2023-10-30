@@ -1,73 +1,88 @@
 package io.github.andersonalexsandro.FirstModule.graph;
 
+import io.github.andersonalexsandro.FirstModule.graph.Color;
+
 import java.util.Objects;
 
 public class Vertex {
+
+    private int number;
     private Color color;
-    private Integer number;
     private Vertex predecessor;
     private int distance;
-    private int secondVisitDistance;
+    private int secondVisit;
 
-    public Vertex(Integer number) {
+    public Vertex(int number) {
         this.number = number;
+        this.color = Color.WHITE;
     }
+
+
+    public int getNumber() {
+        return number;
+    }
+
 
     public Color getColor() {
         return color;
     }
 
+
+    public int getDistanceFromSource() {
+        return distance;
+    }
+
+
+    public Vertex getPredecessor() {
+        return predecessor;
+    }
+
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+
     public void setColor(Color color) {
         this.color = color;
     }
 
-    public Integer getNumber() {
-        return number;
-    }
 
-    public void setNumber(Integer number) {
-        this.number = number;
-    }
-
-    public Vertex getPredecessor() {
-        return predecessor;
+    public void setDistanceFromSource(int distance) {
+        this.distance = distance;
     }
 
     public void setPredecessor(Vertex predecessor) {
         this.predecessor = predecessor;
     }
 
-    public int getDistance() {
-        return distance;
+    public int getSecondVisit() {
+        return secondVisit;
     }
 
-    public void setDistance(int distance) {
-        this.distance = distance;
+    public void setSecondVisit(int secondVisit) {
+        this.secondVisit = secondVisit;
     }
 
-    public int getSecondVisitDistance() {
-        return secondVisitDistance;
-    }
-
-    public void setSecondVisitDistance(int secondVisitDistance) {
-        this.secondVisitDistance = secondVisitDistance;
+    private Integer getPredecessorNumber(){
+        if(predecessor != null) return predecessor.number;
+        return null;
     }
 
     @Override
     public String toString() {
-        return "{Vertex " + number + "}";
+        return "{vrtx:"+ number+ " d:" + distance + " pred:" + getPredecessorNumber() + "}";
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Vertex vertex = (Vertex) o;
-        return Objects.equals(number, vertex.number);
+        if (!(o instanceof Vertex vertex)) return false;
+        return getNumber() == vertex.getNumber();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(number);
+        return Objects.hash(getNumber());
     }
 }
