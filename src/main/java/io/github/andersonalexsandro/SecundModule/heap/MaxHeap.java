@@ -4,20 +4,20 @@ import java.util.Arrays;
 
 public class MaxHeap {
 
-    public void maxHeapify(int[] A, int i) {
+    public void maxHeapify(int[] A, int i, int heapSize) {
         int l = left(i);
         int r = right(i);
         int biggest = i;
 
-        if (l < A.length && A[l] > A[biggest]) {
+        if (l < heapSize && A[l] > A[biggest]) {
             biggest = l;
         }
-        if (r < A.length && A[r] > A[biggest]) {
+        if (r < heapSize && A[r] > A[biggest]) {
             biggest = r;
         }
         if (biggest != i) {
             swap(i, biggest, A);
-            maxHeapify(A, biggest);
+            maxHeapify(A, biggest, heapSize);
         }
     }
 
@@ -37,10 +37,9 @@ public class MaxHeap {
 
     public void buildMaxHeap(int[] A) {
         for (int i = (A.length / 2) - 1; i >= 0; i--) {
-            maxHeapify(A, i);
+            maxHeapify(A, i, A.length);
         }
     }
-
     public static void main(String[] args) {
         MaxHeap maxHeap = new MaxHeap();
         int[] array = {20, 8, 16, 14, 9, 7, 10, 1, 2, 4, 11};
