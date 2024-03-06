@@ -36,14 +36,14 @@ public class MinHeap {
     }
 
     public void buildMinHeap(int[] A) {
-        for (int i = (A.length / 2) - 1; i >= 0; i--) {
+        for (int i = ((A.length-1)/ 2); i >= 0; i--) {
             minHeapify(A, i, A.length);
         }
     }
 
     public void heapSort(int[] A) {
         buildMinHeap(A);
-        for (int i = A.length - 1; i >= 1; i--) {
+        for (int i = A.length - 1; i >0; i--) {
             swap(0, i, A);
             minHeapify(A, 0, i);
         }
