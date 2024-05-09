@@ -1,4 +1,4 @@
-package io.github.andersonalexsandro;
+package io.github.andersonalexsandro.SecundModule;
 
 public class FloydWarshall {
 
